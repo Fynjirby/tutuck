@@ -12,3 +12,5 @@ But since you are still here, I guess you havent found the killer-feature for yo
 
 The main problem of an app was to leave it somewhere between security and simplicity, hope we did it just as it should be :)
 
+> [!IMPORTANT]  
+> Note that TuTuck does not have any encryption except ssh for now, adding messages enctyption is #1 issue for now, will be soon
