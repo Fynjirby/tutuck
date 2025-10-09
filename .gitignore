@@ -1,0 +1,18 @@
+tmp/
+bin/
+bcp/
+*.key
+*.pub
+*.json
+*.log
+.DS_Store
+go.sum
+*_old.go
+*.go.old
+
+# binaries
+client/cli/cli
+client/tui/tui
+server/server
+
+ideas.md

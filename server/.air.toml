@@ -1,0 +1,11 @@
+# .air.toml
+root = "."
+
+[build]
+  cmd = "go build -o tmp/server ." 
+  bin = "tmp/server"                      
+  include_ext = ["go"]
+  exclude_dir = ["vendor", "tmp", "rewrite"]
+
+[color]
+  main = "yellow"
