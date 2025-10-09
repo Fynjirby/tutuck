@@ -1,0 +1,77 @@
+name: Build and Release
+
+on:
+  push:
+    branches:
+      - master
+    paths-ignore:
+      - 'README.md'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.24.3'
+
+      - name: Build binaries
+        run: |
+          mkdir -p dist
+
+          # Build server
+          GOOS=linux GOARCH=amd64 go build -C server -o ../dist/tutuck-server-linux-amd64
+          GOOS=linux GOARCH=arm64 go build -C server -o ../dist/tutuck-server-linux-arm64
+          GOOS=darwin GOARCH=arm64 go build -C server -o ../dist/tutuck-server-macos-arm64
+
+          # Build CLI
+          GOOS=linux GOARCH=amd64 go build -C client/cli -o ../../dist/tutuck-cli-linux-amd64
+          GOOS=linux GOARCH=arm64 go build -C client/cli -o ../../dist/tutuck-cli-linux-arm64
+          GOOS=darwin GOARCH=arm64 go build -C client/cli -o ../../dist/tutuck-cli-macos-arm64
+
+          # Build TUI
+          GOOS=linux GOARCH=amd64 go build -C client/tui -o ../../dist/tutuck-tui-linux-amd64
+          GOOS=linux GOARCH=arm64 go build -C client/tui -o ../../dist/tutuck-tui-linux-arm64
+          GOOS=darwin GOARCH=arm64 go build -C client/tui -o ../../dist/tutuck-tui-macos-arm64
+
+      - name: Delete old tag (if exists)
+        run: |
+          git fetch --tags
+          if git rev-parse -q --verify "refs/tags/latest" >/dev/null; then
+            git tag -d latest
+            git push origin :refs/tags/latest
+          fi
+
+      - name: Create and push new tag
+        run: |
+          git tag latest
+          git push origin latest
+
+      - name: Upload to GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: latest
+          name: "Latest Release"
+          body: |
+            Built automatically from master branch.
+
+            ## Binaries
+            - Server (Linux amd64 / arm64 and macOS arm64)
+            - CLI (Linux amd64 / arm64 and macOS arm64)
+            - TUI (Linux amd64 / arm64 and macOS arm64)
+          files: |
+            dist/tutuck-server-*
+            dist/tutuck-cli-*
+            dist/tutuck-tui-*
+          draft: false
+          prerelease: false
