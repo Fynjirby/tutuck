@@ -2,6 +2,8 @@
 
 Have you ever thought about to chat right in terminal? When coding?... No? Its just time! TuTuck allows to do it, lets see whats it in general.
 
+<img src="photo.png" height="400px">
+
 # Why TuTuck? What's so special about it? 
 Here are 3 reasons to choose TuTuck for your team: 
 - TuTuck works via CLI and TUI clients, so you can choose what you like.
