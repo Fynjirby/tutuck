@@ -6,7 +6,6 @@ bcp/
 *.json
 *.log
 .DS_Store
-go.sum
 *_old.go
 *.go.old
 
