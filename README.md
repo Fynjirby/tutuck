@@ -4,6 +4,8 @@ Have you ever thought about to chat right in terminal? When coding?... No? Its j
 
 <img src="photo.png" height="400px">
 
+#### Feel free to contribute! 
+
 # Why TuTuck? What's so special about it? 
 Here are 3 reasons to choose TuTuck for your team: 
 - TuTuck works via CLI and TUI clients, so you can choose what you like.
@@ -16,3 +18,31 @@ The main problem of an app was to leave it somewhere between security and simpli
 
 > [!IMPORTANT]  
 > Note that TuTuck does not have any encryption except ssh for now, adding messages enctyption is #1 issue for now, will be soon
+ 
+## Install
+
+Install it via GoLang package manager
+
+#### Server
+```sh
+go install github.com/fynjirby/tutuck/server@latest
+```
+#### CLI client
+```sh
+go install github.com/fynjirby/tutuck/client/cli@latest
+```
+#### TUI client
+```sh
+go install github.com/fynjirby/tutuck/client/tui@latest
+```
+
+> [!NOTE]  
+> Bins will be named as server, cli and tui. You can rename them if you want, they align in `~/go/bin/`
+
+#### Manual way
+Go to [releases](https://github.com/Fynjirby/tutuck/releases/) and download the binary you need for your OS, then move it to `/usr/local/bin/` or any other directory in your `$PATH`
+
+## Building
+- Install [Go](https://go.dev/) and make sure it's working with `go version`
+- Clone repo
+- Run `go build` in repo directory, then move the built binary to `/usr/local/bin/` or any other directory in your `$PATH`
