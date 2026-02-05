@@ -24,14 +24,6 @@ func getName(uid int) string {
 	return fmt.Sprintf("User %d", uid)
 }
 
-func getUID(name string) int {
-	u := getUser(name)
-	if u != nil {
-		return u.ID
-	}
-	return 0
-}
-
 func getUser(uidOrName any) *User {
 	switch v := uidOrName.(type) {
 	case int:
@@ -82,7 +74,7 @@ func PrintMsg(from, to, text string) {
 		text,
 	)
 
-	fmt.Printf(msg)
+	fmt.Printf("%s", msg)
 }
 
 func changeName(ch ssh.Channel, uid int, firstTime bool) {

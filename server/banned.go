@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"sync"
-	"time"
 )
 
 type BannedStore struct {
@@ -12,11 +11,8 @@ type BannedStore struct {
 }
 
 var (
-	banned           = BannedStore{UIDs: map[int]bool{}}
-	banLock          sync.Mutex
-	bannedAttempts   = make(map[int]time.Time)
-	bannedAttemptsMu sync.Mutex
-	rateLimitDelay   = 5 * time.Second
+	banned  = BannedStore{UIDs: map[int]bool{}}
+	banLock sync.Mutex
 )
 
 func loadBanned() {
@@ -26,38 +22,8 @@ func loadBanned() {
 	}
 }
 
-func saveBanned() {
-	data, _ := json.MarshalIndent(banned, "", "  ")
-	_ = ioutil.WriteFile("banned.json", data, 0644)
-}
-
 func isBanned(uid int) bool {
 	banLock.Lock()
 	defer banLock.Unlock()
 	return banned.UIDs[uid]
-}
-
-func shouldLogBanned(uid int) bool {
-	bannedAttemptsMu.Lock()
-	defer bannedAttemptsMu.Unlock()
-
-	now := time.Now()
-	last, exists := bannedAttempts[uid]
-	if exists && now.Sub(last) < rateLimitDelay {
-		return false
-	}
-
-	bannedAttempts[uid] = now
-	return true
-}
-
-func setBanned(uid int, value bool) {
-	banLock.Lock()
-	defer banLock.Unlock()
-	if value {
-		banned.UIDs[uid] = true
-	} else {
-		delete(banned.UIDs, uid)
-	}
-	saveBanned()
 }

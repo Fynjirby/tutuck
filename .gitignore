@@ -8,6 +8,7 @@ bcp/
 .DS_Store
 *_old.go
 *.go.old
+go.sum
 
 # binaries
 client/cli/cli

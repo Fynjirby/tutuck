@@ -66,7 +66,7 @@ Chatting:
   :me <action>       → describe your action
 
 Info:
-  :online            → see online users
+  :online or :ls     → see online users
   :who <uid|name>    → get user info
   :name              → show your username
   :name change       → change your username
@@ -101,7 +101,7 @@ Info:
 			}
 			setActiveDM(uid, tUser.ID)
 			out.WriteLine(fmt.Sprintf("You entered DM with %s", tUser.Name))
-		case ":online":
+		case ":online", ":ls":
 			viewOnline(out)
 		case ":me":
 			if len(fields) < 2 {
